@@ -1,0 +1,35 @@
+Point important
+	- Mise en place d'un WebService prennant en compte les commandes "REST", qui permettra de recuperer les images des sites internet.
+	- Pas de contraintes technologique.
+	- Mise à disposition du service sur l'infrastructure de mon choix. Livraison des sources sur un repository GIT.
+
+Choix :
+	- Utilisation du JAVA : je dispose d'un environnement sur cette technologie permettent de rentre le webservice accessible.
+	- WebService : n'ayant pas u l'occasion de mettre en place des WebServices (avec prise en charge des commande REST) sur cette technologie (JAVA).
+ 		J'ai recherché sur le web les différentes librairie qui permette de les mettres en oeuvre. La librairie qui est resorti du lot est "JERSEY" (https://jersey.java.net/index.html).
+ 		Cependant au vue de l'infrastructure dont je dispose, je ne peut pas utilisé la derniere version JERSEY (2.9).
+ 		Mais dans le casprésent cela n'est pas bloquant.
+	- Stockage des informations :
+		Les différentes informations sur les Jobs seront stocké dans une Base de donnée (mysql) étant toujours liée à l'environement disponbile.
+		Je choisi aussi de stocké les images dans le système de fichiers. Cela permet un gain de temps, mais des evolutions pourrait être de les stocké directement dans la base de donnée.
+		Je vais faire en sorte de verifier qu'une image (URL) est deja été traité pour amélioré les temps de traitement et limité l'espace utilisé.
+	- Traitement des JOBS :	
+		Mise en place d'un processus independant permettrant le traitement en parallele.
+ 		Je fait le choix de me basé sur la base de donnée pour faire un suivie de l'avancement des jobs. Et non via le processus.
+ 	
+Points de vigilance :
+	- Site à analyer : 
+		- prendre en compte les redirections direct
+		- pas de recursivité (je me contenteraire de lire la page et sont contenu)
+		- cherche sur les balises <IMG> uniquement. Donc pas d'image charger via les CSS et toutes autre balise prenant en charge des images.
+	- Images :
+		- Je ne ferait pas de surveillance sur la taille des images.
+		- pas de verification sur le fait que la source de la balise soit réelement une image (erreur provenant du site analysé)
+		- gestion des liens relatif et absolue.
+		- les images présenttent plusieur fois dans la page ou sur des site différents ne seront recupérées qu'une seul fois. Je vais me basé sur l'url de l'image (absolue)
+
+Différentes adresse :
+	- http://demo/jobs/create {params} - POST / return : {ID} / {params} = liste des url a annalyser pour ce job
+	- http://demo/jobs/{ID}/status - GET / return : TEXT  / {ID} = l'identifiant d'un job obtenu via create job
+	- http://demo/jobs/{ID}/result / return : TEXT
+	- http://demo/jobs/{ID}/content/{XXXX} / resturn : l'image (fichier)

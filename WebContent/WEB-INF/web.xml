@@ -9,7 +9,11 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
+  	
+  	<!-- LANG -->
+	<context-param><param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name><param-value>com.ff.ressource.lang</param-value></context-param>
+	<context-param><param-name>javax.servlet.jsp.jstl.fmt.falbackLocale</param-name><param-value>fr</param-value></context-param>
+
   <servlet>
 		<servlet-name>crawlingRestService</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -21,6 +25,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>crawlingRestService</servlet-name>
-		<url-pattern>/jobs/*</url-pattern>
+		<url-pattern>/do/*</url-pattern>
 	</servlet-mapping>
 </web-app>

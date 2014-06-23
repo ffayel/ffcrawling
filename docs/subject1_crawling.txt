@@ -1,0 +1,38 @@
+Objet de l'exercice:
+Écrire un webservice permettant de créer des jobs pour crawler des urls (html) et extraire des images.
+
+Règles de l'exercice:
+- consacrez le temps que vous souhaitez à l'exercice - vous ne serez pas jugé sur le fait d'arriver au résultat complet ou non, mais davantage sur la démarche que vous adopterez, vos idées, vos commentaires, votre approche du problème, en fonction du temps consacré
+- vous êtes libre d'utiliser n'importe quelle librairie additionnelle, y compris du code que vous avez déjà écrit
+- vous êtes libre de déployer le service comme vous l'entendrez
+- vous êtes libre d'utiliser des services additionnels, ou même d'intégrer des solutions tiers existantes
+- vous êtes libre de déployer la démonstration sur votre propre machine, de fournir ou non un script d'installation, de déployer sur un serveur, sur une instance EC2, etc
+- merci de commiter votre code sur un repository git (github ou bitbucket), afin que nous puissions lire votre code et la manière dont vous commitez
+
+Définition de l'attente:
+- construire un web service minimal présentant plusieurs commandes REST simples
+- la première commande (http://demo/jobs/create) permet de faire une requête POST, avec en payload une liste d'urls
+- à réception, les urls doivent être traitées une par une, le contenu de la page html correspondante doit être scrapé, et vous devez en extraire les urls des images, puis récupérer ces images et les stocker
+- la requête HTTP doit retourner immédiatement, et renvoyer un "job id" dans le body
+- la seconde commande (http://demo/jobs/ID/status - où ID est l'identifiant d'un job obtenu via create job) doit distinguer les cas:
+* la commande est en cours de traitement (le payload renvoyé devrait contenir des informations sur l'avancement du traitement, détaillé url par url et image par image)
+* la commande a fini de s'exécuter
+- la troisième commande (http://demo/jobs/ID/result - où ID est l'identifiant d'un job obtenu via create job) doit distinguer les cas:
+* la commande n'a pas fini de s'exécuter
+* le traitement est terminé. Dans ce cas, le payload contiendra une série d'urls vers les images que vous aurez extrait des pages web
+- finalement, il doit être possible de récupérer les images elles-mêmes via http://demo/jobs/ID/content/XXXXX où XXXXX est une des urls listée dans result
+
+On s'attend à ce que vous utilisiez la palette des status codes http adéquats, en fonction du cas.
+
+
+Concrètement, voici comment la commande POST sera vérifiée:
+
+$ curl -X POST -d@- http://demo/jobs/create << EOF
+http://www.cnn.com/
+http://www.4chan.org/
+EOF
+
+
+
+
+Vous êtes libres d'améliorer la proposition et de dériver de la demande. Dans ce cas, il vous sera demandé d'argumenter et de défendre les raisons vous ayant amené à le faire.
