@@ -1,35 +1,48 @@
 Point important
-	- Mise en place d'un WebService prennant en compte les commandes "REST", qui permettra de recuperer les images des sites internet.
+	- Mise en place d'un WebService prenant en compte les commandes "REST", qui permettra de récupérer les images des sites internet.
 	- Pas de contraintes technologique.
 	- Mise à disposition du service sur l'infrastructure de mon choix. Livraison des sources sur un repository GIT.
 
 Choix :
-	- Utilisation du JAVA : je dispose d'un environnement sur cette technologie permettent de rentre le webservice accessible.
-	- WebService : n'ayant pas u l'occasion de mettre en place des WebServices (avec prise en charge des commande REST) sur cette technologie (JAVA).
- 		J'ai recherché sur le web les différentes librairie qui permette de les mettres en oeuvre. La librairie qui est resorti du lot est "JERSEY" (https://jersey.java.net/index.html).
- 		Cependant au vue de l'infrastructure dont je dispose, je ne peut pas utilisé la derniere version JERSEY (2.9).
- 		Mais dans le casprésent cela n'est pas bloquant.
+	- Utilisation du JAVA : je dispose d'un environnement sur cette technologie permettent de rentre le web service accessible.
+	- WebService : n'ayant pas u l'occasion de mettre en place des Web Services (avec prise en charge des commandes REST) sur cette technologie (JAVA).
+ 		J'ai recherché sur le web les différentes librairies qui permettent de les mettre en oeuvre. La librairie qui est ressorti du lot est "JERSEY" (https://jersey.java.net/index.html).
+ 		Cependant au vue de l'infrastructure dont je dispose, je ne peux pas utiliser la dernière version JERSEY (2.9).
+ 		Mais dans le cas présent cela n'est pas bloquant.
 	- Stockage des informations :
-		Les différentes informations sur les Jobs seront stocké dans une Base de donnée (mysql) étant toujours liée à l'environement disponbile.
-		Je choisi aussi de stocké les images dans le système de fichiers. Cela permet un gain de temps, mais des evolutions pourrait être de les stocké directement dans la base de donnée.
-		Je vais faire en sorte de verifier qu'une image (URL) est deja été traité pour amélioré les temps de traitement et limité l'espace utilisé.
+		Les différentes informations sur les Jobs seront stockées dans une Base de donnée (mysql) étant toujours liée à l'environnement disponible.
+		Je choisi aussi de stocké les images dans le système de fichiers. Cela permet un gain de temps, mais des évolutions pourrait être de les stocké directement dans la base de donnée.
+		Je vais faire en sorte de vérifier qu'une image (URL) est déjà été traité pour amélioré les temps de traitement et limité l'espace utilisé.
 	- Traitement des JOBS :	
-		Mise en place d'un processus independant permettrant le traitement en parallele.
- 		Je fait le choix de me basé sur la base de donnée pour faire un suivie de l'avancement des jobs. Et non via le processus.
- 	
+		Mise en place d'un processus indépendant permettant le traitement en parallèle.
+ 		Je fais le choix de me basé sur la base de donnée pour faire un suivie de l'avancement des jobs. Et non via le processus.
+
+Fonctionnement :
+	- J'ai rajouté différent statuts pour les jobs : 
+		- attente de traitement
+		- En erreur : permet de définir si le job à rencontrer un problème.
+
 Points de vigilance :
-	- Site à analyer : 
-		- prendre en compte les redirections direct
-		- pas de recursivité (je me contenteraire de lire la page et sont contenu)
-		- cherche sur les balises <IMG> uniquement. Donc pas d'image charger via les CSS et toutes autre balise prenant en charge des images.
+	- Site à analyser : 
+		- prendre en compte les redirections directes
+		- pas de récursivité (je me contente de lire la page et sont contenu)
+		- cherche sur les balises <IMG> uniquement. Donc pas d'image charger via les CSS et toutes autres balises prenant en charge des images.
 	- Images :
-		- Je ne ferait pas de surveillance sur la taille des images.
-		- pas de verification sur le fait que la source de la balise soit réelement une image (erreur provenant du site analysé)
+		- Je ne ferais pas de surveillance sur la taille des images.
+		- pas de vérification sur le fait que la source de la balise soit réellement une image (erreur provenant du site analysé)
 		- gestion des liens relatif et absolue.
-		- les images présenttent plusieur fois dans la page ou sur des site différents ne seront recupérées qu'une seul fois. Je vais me basé sur l'url de l'image (absolue)
+		- les images présentent plusieurs fois dans la page ou sur des sites différents ne seront récupérées qu'une seul fois. Je vais me basé sur l'url de l'image (absolue)
 
 Différentes adresse :
-	- http://demo/jobs/create {params} - POST / return : {ID} / {params} = liste des url a annalyser pour ce job
+	- http://demo/jobs/create {params} - POST / return : {ID} / {params} = liste des url à analyser pour ce job
 	- http://demo/jobs/{ID}/status - GET / return : TEXT  / {ID} = l'identifiant d'un job obtenu via create job
 	- http://demo/jobs/{ID}/result / return : TEXT
-	- http://demo/jobs/{ID}/content/{XXXX} / resturn : l'image (fichier)
+	- http://demo/jobs/{ID}/content/{XXXX} / return : l'image (fichier) / {ID} = l'identifiant d'un job obtenu via create job | {XXXX} = identifiant de l'image (changer par rapport au sujet initial pour rendre plus simple l'utilisation)
+
+Axes d'amélioration :
+	- gestion des sites déjà visités afin de les rattachés à un nouveau de job et de recharger les données qu'après un certain délai
+	- re-téléchargement des images après un certain délai si un nouveau job la trouve.
+	- Parcage des url envoyées au web Service "create" (utilisation d'une regex)
+	- Utilisation d'un "pool" de thread pour permettre une gestion des threads en cours et pouvoir interagir avec.
+	- Après quelque test j'ai remarqué que sur certain site le nommage des images posent problème pour les sauvegarder. Il faudrait donc récupérer le MineType de l'image à la récupération et le stocker dans la base de données pour résoudre le problème.
+	- En cas de plantage du job récupérer et stocker la raison en base pour pouvoir la fournir au l'utilisateur.

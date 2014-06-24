@@ -6,8 +6,10 @@ import com.ff.thread.JobThread;
 public class TestThreadJob {
 
 	public static void main(String[] args) {
-		Job job = new Job(1, "http://www.cnn.com/", "http://hebus.com");
-		Thread thread = new Thread(new JobThread(job));
+		Job job = new Job("http://www.cnn.com/", "http://hebus.com");
+		JobThread jobThread = new JobThread(job);
+		jobThread.setSaveBDD(false);
+		Thread thread = new Thread(jobThread);
 		thread.run();
 	}
 

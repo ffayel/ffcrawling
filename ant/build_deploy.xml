@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ffcrawling" basedir="../" default="all">
+	<property name="projet.version" value="1.0"/>
+	<property name="projet.name" value="ffcrawling"/>
+
+	<property name="src.dir" value="${basedir}/src"/>
+	<property name="build.dir" value="${basedir}/WebContent/WEB-INF/classes"/>
+	<property name="webinf.dir" value="${basedir}/WebContent/WEB-INF"/>
+	<property name="lib.dir" value="${webinf.dir}/lib"/>
+	<property name="tomcatlib.dir" value="D:\fflorian\programme\apache-tomcat-6.0.35\lib"/>
+	<property name="war.dir" value="${basedir}/war"/>
+	<property name="webroot.dir" value="${basedir}/WebContent"/>
+	<property name="javadoc.dir" value="${basedir}/documentation"/>
+
+	<!-- Path -->
+	<path id="compile.classpath">
+		<pathelement path ="${lib.dir}/asm-3.1.jar" />
+		<pathelement path ="${lib.dir}/jersey-core-1.18.jar" />
+		<pathelement path ="${lib.dir}/jersey-server-1.18.jar" />
+		<pathelement path ="${lib.dir}/jersey-servlet-1.18.jar" />
+		<pathelement path ="${lib.dir}/mysql-connector-java-5.1.6.jar" />
+
+		<pathelement path ="${tomcatlib.dir}/annotations-api.jar" />
+		<pathelement path ="${tomcatlib.dir}/el-api.jar" />
+		<pathelement path ="${tomcatlib.dir}/jasper.jar" />
+		<pathelement path ="${tomcatlib.dir}/jsp-api.jar" />
+		<pathelement path ="${tomcatlib.dir}/servlet-api.jar" />
+	</path>
+
+	<!-- Init -->
+	<target name="init">
+	    <tstamp/>
+		<echo message="Java version: ${ant.java.version}" />
+	</target>
+
+	<!-- Porperties -->
+    <target name="porperties">
+        <copy todir="${build.dir}" includeEmptyDirs="no">
+            <fileset dir="${src.dir}">
+            <patternset>
+                <include name="**/*.properties"/>
+                <include name="**/*.wsdl"/>
+                <include name="**/*.TTF"/>
+                <include name="**/*.png"/>
+                <include name="**/*.jpg"/>
+                <include name="**/*.gif"/>
+            </patternset>
+            </fileset>
+        </copy>
+    </target>
+
+	<!-- Clean -->
+	<target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${war.dir}/${projet.name}${projet.name}-${projet.version}.war"/>
+	</target>
+
+	<!-- Compile -->
+	<target name="compile" depends="clean">
+		<mkdir dir="${build.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="on">
+	        <classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+
+	<!-- War -->
+	<target name="war">
+		<mkdir dir="${war.dir}"/>
+			<war basedir="${webroot.dir}" warfile="${war.dir}/${projet.name}-${projet.version}.war" webxml="${webinf.dir}/web.xml">
+				<exclude name="WEB-INF/${build.dir}/**"/>
+				<exclude name="WEB-INF/web.xml"/>
+   			</war>
+	</target>
+
+	<!-- JavaDoc -->
+	<target name="javadoc" description="Javadoc creation">
+	<delete dir="${javadoc.dir}" />
+	<mkdir dir="${javadoc.dir}" />
+	<javadoc destdir="${javadoc.dir}"
+        windowtitle="${projet.name}-${projet.version}"
+        bottom="&amp;copy; 2012 FF - ${projet.name}-${projet.version}"
+        locale="fr_FR"
+        encoding="utf8" charset="utf8"
+        linksource="yes"
+        author="true"
+		splitindex="false"
+		use="true"
+		version="true">
+    	<classpath refid="compile.classpath" />
+		<group title="Core">
+			<package name="com.ff.conf"/>
+			<package name="com.ff.exception"/>
+			<package name="com.ff.dao"/>
+			<package name="com.ff.ressource"/>
+			<package name="com.ff.services"/>
+			<package name="com.ff.thread"/>
+			<package name="com.ff.tool"/>
+		</group>
+		<group title="Data">
+			<package name="com.ff.dao..data"/>
+		</group>
+		<group title="Test">
+			<package name="com.ff.test"/>
+		</group>
+		<link href="http://java.sun.com/j2se/1.6/docs/api"/>
+   	 	<packageset dir="${src.dir}" defaultexcludes="yes">
+    	    <include name="**"/>
+    	</packageset>
+
+	</javadoc>
+</target>
+
+
+	<!-- All (Default) -->
+	<target name="all" depends="init, compile, porperties, war" />
+</project>
