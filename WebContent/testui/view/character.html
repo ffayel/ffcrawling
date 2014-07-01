@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="jumbotron">
+            <h1>{{character.name}}</h1>
+
+            <p>{{character.description}}</p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <img src="{{character.thumbnail.path}}.{{character.thumbnail.extension}}"/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <span ng-if="character.events.items.length == 1">
+            {{character.events.items[0].name}}
+        </span>
+        <ul ng-if="character.events.items.length > 1">
+            <li ng-repeat="event in character.events.items">
+                {{event.name}}
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <ul>
+            <li ng-repeat="story in character.stories.items">
+                {{story.name}}
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <ul>
+            <li ng-repeat="serie in character.series.items">
+                {{serie.name}}
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+        <ul>
+            <li ng-repeat="comic in character.comics.items">
+                {{comic.name}}
+            </li>
+        </ul>
+    </div>
+</div>

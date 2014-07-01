@@ -24,7 +24,6 @@ public final class MyTime {
 	private final static DateFormat inputDateHeureSeconds =  new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", local_fr);
 	private final static DateFormat inputDateHeureWithoutYear =  new SimpleDateFormat("dd/MM HH:mm", local_fr);
 	private final static DateFormat inputHeure =  new SimpleDateFormat("HH:mm", local_fr);
-	private final static DateFormat openfax =  new SimpleDateFormat("yyyyMMddHHmmss", local_fr);
 	private final static DateFormat tmpFileName =  new SimpleDateFormat("ddMMyyyyHHmmssSSS", local_fr);
 
 	private final static DateFormat stringMonth =  new SimpleDateFormat("MM", local_fr);
@@ -66,15 +65,9 @@ public final class MyTime {
 	public final static String getNowW3dtf (){
 		return w3dtf.format(new GregorianCalendar().getTime());
 	}
-
-	public static Calendar getOpenFaxCalendarDate(final String input) {
-		try {
-			final Calendar result = new GregorianCalendar();
-			result.setTime(openfax.parse(input));
-			return result;
-		} catch (ParseException e) {
-			return nowCalendar();
-		}
+	
+	public final static String getNowTmpFileName (){
+		return tmpFileName.format(new GregorianCalendar().getTime());
 	}
 
 	public static Calendar getTmpFileCalendar(final String input) {

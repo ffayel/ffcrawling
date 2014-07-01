@@ -26,6 +26,11 @@ public final class AppConf {
 		/* Debug */
 		config.add(new DataLabelString("debug.sql", "false"));
 		config.add(new DataLabelString("debug.navigation", "false"));
+		
+		/* MARVEL*/
+		config.add(new DataLabelString("marvel.publickey", ""));
+		config.add(new DataLabelString("marvel.privatekey", ""));
+		
 
 		return config;
 	}

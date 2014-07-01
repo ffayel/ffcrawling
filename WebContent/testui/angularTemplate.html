@@ -1,0 +1,117 @@
+<html>
+<head>
+  <script src="/ffcrawling/js/angular-1.2.18/angular.min.js"></script>
+  <script src="/ffcrawling/js/angular-1.2.18/angular-route.js"></script>
+  <script src="/ffcrawling/js/angular-1.2.18/angular-resource.js"></script>
+  <script src="/ffcrawling/js/angular-1.2.18/angular-touch.js"></script>
+  <script src="/ffcrawling/js/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="/ffcrawling/js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+  <script src="/ffcrawling/js/bootstrap.js"></script>
+  
+  <link href="/ffcrawling/css/bootstrap.min.css" rel="stylesheet">
+  <script>
+  //APP
+//angular.module('myModule', ['ui.bootstrap']);
+  var phonecatApp = angular.module('phonecatApp', ['ngRoute',
+                                                   'phonecatControllers','ui.bootstrap'/*, 'phonecatServices'*/]);
+
+  //ROUTE
+  phonecatApp.config(['$routeProvider',
+                      function($routeProvider) {
+                        $routeProvider.
+                          when('/comics', {
+                            templateUrl: 'partials/comicsList.html',
+                            controller: 'PhoneListCtrl'
+                          }).
+                          when('/comic/:comicId', {
+                            templateUrl: 'partials/comicsDetail.html',
+                            controller: 'PhoneDetailCtrl'
+                          }).
+                          otherwise({
+                            redirectTo: '/comics'
+                          });
+                      }]);
+  
+  //CONTROLLERS
+  var phonecatControllers = angular.module('phonecatControllers', []);
+  phonecatControllers.controller('PhoneListCtrl', function ($scope, $http) {
+	$http({method: 'GET', url: 'http://gateway.marvel.com:80/v1/public/comics', params: {'limit':$scope.limitModel, 'apikey':'ce828b66df42de22c8fc01e85defa87e'}})
+		.success(function(response) {
+	
+	   $scope.phones = response.data;
+	 });
+  });
+  phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+	  $http({method: 'GET', url: 'http://gateway.marvel.com:80/v1/public/comics/'+$routeParams.comicId, params: {apikey:'ce828b66df42de22c8fc01e85defa87e'}})
+		.success(function(response) {
+			if(response.data.total == 1){
+	   			$scope.phone = response.data.results[0];
+			}
+	 });
+  }]);
+  
+  //service 
+  /*var phonecatServices = angular.module('phonecatServices', ['ngResource']);
+
+  phonecatServices.factory('Comic', ['$resource',
+  function($resource){
+    return $resource('http://gateway.marvel.com:80/v1/public/comics/:comicId', {}, {
+      query: {method:'GET', params:{comicId:'phones', apikey:'ce828b66df42de22c8fc01e85defa87e'}, isArray:true}
+    });
+  }]);*/
+  
+ // angular.module('plunker', ['ui.bootstrap']);
+  phonecatControllers.controller('ButtonsCtrl', ['$scope', function($scope){
+	  $scope.checkModel = {left: true, right: false};
+	  $scope.radioModel = 'Left';
+	  
+	  $scope.limits = [5, 10, 20, 50];
+	  $scope.limitModel = 5;
+  }])
+  /*var ButtonsCtrl = function ($scope) {
+
+    $scope.singleModel = 1;
+
+    $scope.radioModel = 'Middle';
+
+    $scope.checkModel = {
+      left: false,
+      middle: true,
+      right: false
+    };
+  };*/
+  </script>
+</head>
+<body >
+totot contenu exterieur
+<div ng-app="phonecatApp">
+<div ng-controller="ButtonsCtrl">
+	<select class="form-control" ng-model="limitModel" ng-options="f for f in limits"></select>
+    <h4>Single toggle</h4>
+    <pre>{{singleModel}}</pre>
+    <button type="button" class="btn btn-primary" ng-model="singleModel" btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">
+        Single Toggle
+    </button>
+    <h4>Checkbox</h4>
+    <pre>{{checkModel}}</pre>
+    <div class="btn-group">
+        <label class="btn btn-primary" ng-model="checkModel.left" btn-checkbox>Left</label>
+        <label class="btn btn-primary" ng-model="checkModel.middle" btn-checkbox>Middle</label>
+        <label class="btn btn-primary" ng-model="checkModel.right" btn-checkbox>Right</label>
+    </div>
+    <h4>Radio &amp; Uncheckable Radio</h4>
+    <pre>{{radioModel || 'null'}}</pre>
+    <div class="btn-group">
+        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Left'">Left</label>
+        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Middle'">Middle</label>
+        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Right'">Right</label>
+    </div>
+    <div class="btn-group">
+        <label class="btn btn-success" ng-model="radioModel" btn-radio="'Left'" uncheckable>Left</label>
+        <label class="btn btn-success" ng-model="radioModel" btn-radio="'Right'" uncheckable>Right</label>
+    </div>
+</div>
+ <div ng-view></div>
+ </div>
+</body>
+</html>

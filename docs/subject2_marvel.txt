@@ -1,0 +1,35 @@
+Test Description:
+
+Using the Javascript MVC (angular, ember, etc) of your choosing, create a website using the Public Marvel API's to drive the content of the website. (http://developer.marvel.com/).
+
+Data:
+- You can use what ever data that you have access to in the API. 
+- Feel free to add in any other external data that you might need, as long as a majority of the data is coming from the Marvel API.
+
+Libraries:
+You can use any libraries that you want as long as they are open source.
+
+Pages:
+There are 3 required pages, but you can add as many pages as you see fit. 
+- Home Page: Explains what the site is, and the ability to browse by creators or comics
+- Creator page: Information about the creator, and anything else you want to add
+- Comic page: Information about the comic, and anything else you want to add.
+
+Structure:
+- I don't care how you organize your code, as long as it is easy to find things and make changes in the future if needed.
+
+Navigation:
+- Make the site browsable, so people can click around to easily find more information about the comics they love.
+
+Design:
+- Start with bootstrap as a base, and add your own custom theme on top of it using .less
+- make it look as nice as possible, but also make it usable for the visitors
+- responsive design so it works on both mobile and desktop
+
+End product:
+- everything should be in a public repo on GitHub
+- there should be a README to let us know everything we need to know about the project. How to start it up, how to contribute to it, what libraries are required, etc.
+
+Bonus points:
+- unit tests
+- a Dockerfile we can use to create a docker container to run your project.

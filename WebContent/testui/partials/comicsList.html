@@ -1,0 +1,13 @@
+ <select ng-model="orderProp">
+    <option value="images">image</option>
+    <option value="title">Titre</option>
+  </select>
+  
+<ul class="phones">
+  <li ng-repeat="phone in phones.results | orderBy:orderProp">
+  	<img ng-src="{{phone.thumbnail.path + '/' + 'portrait_small.' + phone.thumbnail.extension}}">
+    <a href="#/comic/{{phone.id}}">{{phone.title}}</a>
+    <div>{{phone.description}}</div>
+   	<div>images count : {{phone.images.length}}</div>
+  </li>
+</ul>

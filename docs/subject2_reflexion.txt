@@ -1,0 +1,29 @@
+Points important 
+	- L'utilisation d'une librairie JavaScript de MVC (angularJS dans le cas présent) est totalement nouveau pour moi.
+	Il m'a donc fallut découvrir les principes et les fonctionnements de cette nouvelle façon de développer.
+
+
+Choix : 
+	- Vu qu'une grande majorité des actions est faite coté navigateur, l'utilisation de java n'est pas utile. 
+		Cependant je vais quand même l'utiliser afin de mettre tous les textes dans le fichier de langue (cela permet une correction ultérieure plus facile)
+	- J'ai décidé de ne pas pas mettre la clé de l'API marvel dans le code 
+		mais d'utiliser un paramètre de l'application pour la stocker. 
+		Cela permet de ne pas diffuser la clé dans les sources et dans GITHUB.
+	- J'utilise le fichier CSS "/WebContent/css/main.css" pour surcharger les éléments de Bootstrap et mettre des éléments spécifiques.
+	- Page Créateur : l'affichage des images pour les créations n'est pas très intuitif et ne convient pas pour les comics sur lesquels j'ai mis un lien.  
+
+	Structure des pages: (adresse à utiliser : /ffcrawling/marvel/*)
+		* Home (#search)
+		* Creator page (#/creator/{id})
+		* Comics page (#/comic/{id})
+		* Search Result (affichage pour les elements de la recherche sur la page Home) - directive
+
+Tests :
+	- J'ai réalisé de nombreux tests sur les librairies qui m'était inconnues. 
+	- Le site a été testé sur les navigateurs : Chrome / IE 11 / Safari (ios) et pour les devices : Iphone 5S / Android Tablette 7" / ipad 2 / PC Windows 8
+	- Comics de référence pour les tests ( #/comic/{ID} ): 48048, 48385, 46215, 48532
+
+Axes d'amélioration :
+	- J'ai remarqué un délai au chargement des différents controles. Il est dut au fait que le controle se charge vide et le webservice fait une réponse un peu après. 
+		Il faudrait mettre en place un loader.
+	- 

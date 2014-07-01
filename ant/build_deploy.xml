@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ffcrawling" basedir="../" default="all">
-	<property name="projet.version" value="1.0"/>
+	<property name="projet.version" value="2.0"/>
 	<property name="projet.name" value="ffcrawling"/>
 
 	<property name="src.dir" value="${basedir}/src"/>

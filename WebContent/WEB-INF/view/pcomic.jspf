@@ -1,0 +1,82 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<ol class="breadcrumb">
+  <li><a ng-href="#/search"><span class="glyphicon glyphicon-home"></span> <fmt:message key="nav.home.label" /></a></li>
+  <li class="active"><fmt:message key="nav.detail.label" />{{comic.title}}</li>
+</ol>
+<div>
+	<div class="well clearfix content-corner1">
+		<h1 class="hidden-md hidden-lg">{{comic.title}}</h1>
+		<div class="comic-detail-jacket content-corner2">
+			<img ng-src="{{urlImage(comic.thumbnail, 'portrait_incredible')}}" alt="<fmt:message key="page.thumbnail.alt" />" class="image">
+			<div class="corner corner-top-left"></div>
+			<div class="corner corner-top-right"></div>
+			<div class="corner corner-bottom-left"></div>
+			<div class="corner corner-bottom-right"></div>
+		</div>
+		<h1 class="hidden-xs hidden-sm">{{comic.title}}</h1>
+		<div class="comic-detail-item">
+			<ol class="breadcrumb">
+				<li ng-repeat="date in comic.dates">
+					<strong>{{date.type | datetranslate}} : </strong>
+					<time datetime="{{date.date}}">{{date.date | date : mediumDate}}</time>
+				</li>
+			</ol>
+		</div>
+		<div class="comic-detail-item"><strong><fmt:message key="page.pcomic.label.format" /></strong>{{comic.format}} (<fmt:message key="page.pcomic.label.page" />{{comic.pageCount}})</div>
+		<div class="comic-detail-item comic-detail-creators">
+			<div ng-repeat="c in creators"><strong>{{c.role}} : </strong><span ng-repeat="creator in c.items"><a tooltip="<fmt:message key="page.pcomic.label.detail" />" class="label label-default" ng-href="#/creator/{{exctractCreatorId(creator.resourceURI)}}"><span class="glyphicon glyphicon-link"></span> {{creator.name}}</a> </span></div>
+		</div>
+		<div class="comic-detail-item comic-detail-desc">
+			<strong class="hidden-md hidden-lg"><fmt:message key="page.pcomic.label.desc" /></strong>
+			<p ng-bind-html="comic.description"></p>
+			<strong ng_show="comic.variantDescription"><fmt:message key="page.pcomic.vdesc.label" /></strong>
+			<p ng_show="comic.variantDescription" ng-bind-html="comic.variantDescription"></p>
+		</div>
+		<div class="corner corner-top-left"></div>
+		<div class="corner corner-top-right"></div>
+		<div class="corner corner-bottom-left"></div>
+		<div class="corner corner-bottom-right"></div>
+	</div>
+	<div class="panel panel-default content-corner3">
+		<div class="panel-heading">
+			<h3 class="panel-title"><fmt:message key="page.pcomic.label.moreinfo" /></h3>
+		</div>
+		<div class="panel-body">
+			<div class="comic-detail-item">
+				<strong><fmt:message key="page.label.link" /></strong>
+				<span ng-repeat="u in comic.urls"><a class="label label-primary" ng-href="{{u.url}}" target="new"><span class="glyphicon glyphicon-link"></span> {{u.type}}</a></span>
+			</div>
+			<div class="comic-detail-item"><strong><fmt:message key="page.pcomic.label.serie" /></strong><span>{{comic.series.name}}</span></div>
+			<div class="comic-detail-item">
+				<strong><fmt:message key="page.label.updated" /></strong><span>{{comic.modified | date : mediumDate}}</span>
+			</div>
+		</div>
+		<div class="corner corner-top-left"></div>
+		<div class="corner corner-top-right"></div>
+		<div class="corner corner-bottom-left"></div>
+		<div class="corner corner-bottom-right"></div>
+	</div>
+	<div ng-show="comic.images.length>1" class="panel panel-default content-corner3 comic-detail-img">
+		<div class="panel-heading">
+			<h3 class="panel-title"><fmt:message key="page.pcomic.label.images" /></h3>
+		</div>
+		<div class="panel-body">
+			<span class="small"><fmt:message key="page.pcomic.message.clickshow" /></span>
+			<div class="row">
+				<div class="col-sm-1 col-md-3" ng-repeat="image in comic.images">
+					<div class="comic-detail-img-item content-corner2">
+						<img class="image" ng-src="{{urlImageSmall(image)}}" ng-click="openInNewWindow(image)" tooltip="<fmt:message key="page.pcomic.message.fullimg" />">
+						<div class="corner corner-top-left"></div>
+						<div class="corner corner-top-right"></div>
+						<div class="corner corner-bottom-left"></div>
+						<div class="corner corner-bottom-right"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="corner corner-top-left"></div>
+		<div class="corner corner-top-right"></div>
+		<div class="corner corner-bottom-left"></div>
+		<div class="corner corner-bottom-right"></div>
+	</div>
+</div>

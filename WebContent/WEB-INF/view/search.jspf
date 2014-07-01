@@ -1,0 +1,111 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<div ng-controller="marvelSearchCtrl">
+    <script type="text/ng-template" id="customTemplate.html"><a><span bind-html-unsafe="match.model.label | typeaheadHighlight:query"></span> <span class="glyphicon glyphicon-eye-open text-right"></span></a></script>
+	<div class="site-intro content-corner2">
+		<div>
+			<h2><fmt:message key="page.search.title.pres" /></h2>
+			<fmt:message key="page.search.message.pres" />
+		</div>
+		<div class="corner corner-top-left"></div>
+		<div class="corner corner-top-right"></div>
+		<div class="corner corner-bottom-left"></div>
+		<div class="corner corner-bottom-right"></div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading content-corner1">
+			<h2 class="panel-title"><fmt:message key="page.search.title.find" /></h2>
+			<form class="form-horizontal panel-body">
+				<div class="form-group has-feedback">
+					<div class="col-sm-offset-2 col-sm-10">
+					<input type="text" ng-model="searchAutoCompleteModel" 
+						placeholder="<fmt:message key="page.search.placeholder.find"/>" 
+					    typeahead="items.label for items in getItems($viewValue)" 
+					    typeahead-loading="loadingSearchItem"
+					    typeahead-template-url="customTemplate.html"
+					    typeahead-on-select="onSelectAutoCompleteItem($item, $model, $label)" 
+					    class="form-control">
+				    <span ng-show="loadingSearchItem" class="glyphicon glyphicon-refresh form-control-feedback"></span>
+				    </div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2"><fmt:message key="page.search.label.type" /></label>
+			     	<div class="col-sm-10 btn-group">
+				        <label class="btn btn-default" ng-model="radioModel" btn-radio="1" uncheckable>Comics</label>
+				        <label class="btn btn-default" ng-model="radioModel" btn-radio="2" uncheckable>Creators</label>
+				    </div>
+			    </div>
+				<div class="form-group">
+			     	<label class="control-label col-sm-2" for="pageSize"><fmt:message key="page.search.label.nbpage" /></label>
+			     	<div class="col-sm-10">
+			     		<select id="pageSize" class="form-control" ng-model="pageSize" ng-options="c.label for c in pageSizes" ng-change="searchText()"></select>
+			     	</div>
+				</div>
+				<div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-2">
+						<button class="btn btn-default" type="submit" ng-click="searchText()"><fmt:message key="page.search.btn.find" /></button>
+					</div>
+					<div class="col-sm-7">
+						<progressbar class="progress-striped active" value="100" ng-show="loadingSearchItem"><fmt:message key="page.search.message.load" /></progressbar>
+					</div>
+				</div>
+			</form>
+			<div class="corner corner-top-left"></div>
+			<div class="corner corner-top-right"></div>
+			<div class="corner corner-bottom-left"></div>
+			<div class="corner corner-bottom-right"></div>
+		</div>
+			<div class="panel-body" ng-show="isAvailableResults()">
+			
+				<div id="result-number" class="col-xs-6 col-md-4 table-responsive middle-col middle-col-support">
+				{{countItems}}<fmt:message key="page.search.label.resultcount" />{{totalItems}}
+				</div>
+		        <div class="col-xs-12 col-md-8 table-responsive middle-col-support" ng-show="countItems>0">
+					<pagination previous-text="&lsaquo;" 
+						ng-model="currentPage"
+						ng-change="pageChanged()"
+						next-text="&rsaquo;" 
+						first-text="&laquo;" 
+						last-text="&raquo;"
+						total-items="totalItems" 
+						page="currentPage" 
+						max-size="maxSize" 
+						class="pagination-sm" 
+						boundary-links="true"
+						rotate="false" 
+						num-pages="numPages" 
+						items-per-page="pageSize.count"></pagination>
+		 
+		        </div>
+			</div>
+			<ul class="list-group" ng-show="isAvailableResults()">
+			  <li class="list-group-item search-item" ng-repeat="r in searchResp">
+				<search-result data="r" link="{{r.id}}" type="{{searchType}}"></search-result>
+			  </li>
+			</ul>
+			<div ng-show="!isAvailableResults()" class="alert alert-warning" role="alert">
+				<fmt:message key="page.search.message.nodata" />
+				<span ng-show="errorDataSearch"><fmt:message key="page.search.message.swerror" /></span>
+			</div>
+			<div class="panel-body" ng-show="isAvailableResults()">
+			<div class="col-xs-6 col-md-4 table-responsive middle-col-support" ng-show="countItems>0">
+					<pagination previous-text="&lsaquo;" 
+						ng-model="currentPage"
+						ng-change="pageChanged()"
+						next-text="&rsaquo;" 
+						first-text="&laquo;" 
+						last-text="&raquo;"
+						total-items="totalItems" 
+						page="currentPage" 
+						max-size="maxSize" 
+						class="pagination-sm" 
+						boundary-links="true"
+						rotate="false" 
+						num-pages="numPages" 
+						items-per-page="pageSize.count"></pagination>
+		 	</div>
+		 	</div>
+	</div>
+</div>

@@ -1,0 +1,89 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<ol class="breadcrumb">
+  <li><a ng-href="#/search"><span class="glyphicon glyphicon-home"></span> <fmt:message key="nav.home.label" /></a></li>
+  <li class="active"><fmt:message key="nav.detail.creator.label" />{{creator.fullName}}</li>
+</ol>
+<div>
+	<div class="well clearfix content-corner1">
+		<h1 class="hidden-md hidden-lg">{{creator.firstName}}&nbsp;<span ng-show="{{creator.middleName}}">{{creator.middleName}}&nbsp;</span>{{creator.lastName|uppercase}}</h1>
+		<div class="comic-detail-jacket content-corner2">
+			<img ng-src="{{urlImage(creator.thumbnail, 'portrait_incredible')}}" alt="<fmt:message key="page.thumbnail.alt" />" class="image">
+			<div class="corner corner-top-left"></div>
+			<div class="corner corner-top-right"></div>
+			<div class="corner corner-bottom-left"></div>
+			<div class="corner corner-bottom-right"></div>
+		</div>
+		<h1 class="hidden-xs hidden-sm">{{creator.firstName}}&nbsp;<span ng-show="{{creator.middleName}}">{{creator.middleName}}&nbsp;</span>{{creator.lastName|uppercase}}</h1>
+		<div class="creator-detail-item">
+			<strong><fmt:message key="page.label.updated" /></strong>
+			<time datetime="{{creator.modified}}">{{creator.modified|date : medium}}</time>
+		</div>
+		<div class="creator-detail-item">
+			<strong><fmt:message key="page.label.link" /></strong>
+			<span ng-repeat="u in creator.urls"><a class="label label-primary" ng-href="{{u.url}}" target="new"><span class="glyphicon glyphicon-link"></span> {{u.type}}</a> </span>
+		</div>
+		<div class="creator-creation">
+			<accordion close-others="oneAtATime">
+				<accordion-group is-open="comics.open" class="creator-creation-list clearfix">
+					<accordion-heading>
+						<span class="badge">{{creator.comics.available}}</span> <fmt:message key="page.pcreator.label.comics" />
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': comics.open, 'glyphicon-chevron-right': !comics.open}"></i>
+					</accordion-heading>
+					<div class=""><fmt:message key="page.pcreator.label.view.1" /><strong>{{creator.comics.returned}}</strong><fmt:message key="page.pcreator.label.view.2" />{{creator.comics.available}}<fmt:message key="page.pcreator.label.view.3" /><span class="hidden-xs label-legend"><fmt:message key="page.pcreator.label.view.4" /></span></div>
+					<div class="hidden-xs creator-creation-img content-corner2">
+						<img class="image" ng-src="{{getImg('comics')}}">
+						<div class="corner corner-top-left"></div>
+						<div class="corner corner-top-right"></div>
+						<div class="corner corner-bottom-left"></div>
+						<div class="corner corner-bottom-right"></div>
+					</div>
+					<ul>
+						<li class="creator-creation-item" ng-repeat="comic in creator.comics.items" ng-mouseover="hoverItem(comic.resourceURI, 'comics')">
+							<a ng-href="{{makeLinkComic(comic.resourceURI)}}">{{comic.name}}</a>
+							<span class="hidden-xs"><span class="glyphicon glyphicon-picture"></span> <fmt:message key="page.pcreator.label.showimg" /></span> 
+						</li>
+					</ul>
+					
+				</accordion-group>
+				<accordion-group is-open="series.open" class="creator-creation-list clearfix">
+					<accordion-heading>
+						<span class="badge">{{creator.series.available}}</span> <fmt:message key="page.pcreator.label.series" />
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': series.open, 'glyphicon-chevron-right': !series.open}"></i>
+					</accordion-heading>
+					<div class="small"><fmt:message key="page.pcreator.label.view.1" /><strong>{{creator.series.returned}}</strong><fmt:message key="page.pcreator.label.view.2" />{{creator.series.available}}<fmt:message key="page.pcreator.label.view.3" /><span class="hidden-xs label-legend"><fmt:message key="page.pcreator.label.view.4" /></span></div>
+					<div class="hidden-xs creator-creation-img content-corner2">
+						<img class="image" ng-src="{{getImg('series')}}">
+						<div class="corner corner-top-left"></div>
+						<div class="corner corner-top-right"></div>
+						<div class="corner corner-bottom-left"></div>
+						<div class="corner corner-bottom-right"></div>
+					</div>
+					<ul>
+						<li class="creator-creation-item" ng-repeat="serie in creator.series.items" ng-mouseover="hoverItem(serie.resourceURI, 'series')">{{serie.name}}</li>
+					</ul>
+				</accordion-group>
+				<accordion-group is-open="stories.open" class="creator-creation-list clearfix">
+					<accordion-heading>
+						<span class="badge">{{creator.stories.available}}</span> <fmt:message key="page.pcreator.label.stories" />
+						<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': stories.open, 'glyphicon-chevron-right': !stories.open}"></i>
+					</accordion-heading>
+					<div class="small"><fmt:message key="page.pcreator.label.view.1" /><strong>{{creator.stories.returned}}</strong><fmt:message key="page.pcreator.label.view.2" />{{creator.stories.available}}<fmt:message key="page.pcreator.label.view.3" /><span class="hidden-xs label-legend"><fmt:message key="page.pcreator.label.view.4" /></span></div>
+					<div class="hidden-xs creator-creation-img content-corner2">
+						<img class="image" ng-src="{{getImg('stories')}}">
+						<div class="corner corner-top-left"></div>
+						<div class="corner corner-top-right"></div>
+						<div class="corner corner-bottom-left"></div>
+						<div class="corner corner-bottom-right"></div>
+					</div>
+					<ul>
+						<li class="creator-creation-item" ng-repeat="storie in creator.stories.items" ng-mouseover="hoverItem(storie.resourceURI, 'stories')">{{storie.name}}</li>
+					</ul>
+				</accordion-group>
+			</accordion>
+		</div>
+		<div class="corner corner-top-left"></div>
+		<div class="corner corner-top-right"></div>
+		<div class="corner corner-bottom-left"></div>
+		<div class="corner corner-bottom-right"></div>
+	</div>
+</div>

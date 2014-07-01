@@ -1,0 +1,25 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<div class="clearfix" ng-switch="type">
+	<div class="hidden-xs search-img content-corner3">
+		<img class="image" ng-src="{{getThumbnail(searchData.thumbnail, 'portrait_medium')}}" alt="<fmt:message key="page.thumbnail.alt" />">
+		<div class="corner corner-top-left"></div>
+		<div class="corner corner-top-right"></div>
+		<div class="corner corner-bottom-left"></div>
+		<div class="corner corner-bottom-right"></div>
+	</div>
+	<div>
+		<div class="title">
+			<a ng-switch-when="1" ng-href="#/comic/{{searchData.id}}">{{searchData.title}}</a>
+			<a ng-switch-when="2" ng-href="#/creator/{{searchData.id}}">{{searchData.fullName}}</a>
+			<div class="search-item"><strong><fmt:message key="page.label.updated" /></strong>
+				<time datetime="{{searchData.modified}}">{{searchData.modified|date : medium}}</time>
+			</div>
+		</div>
+		<div class="search-item" ng-switch-when="2"><strong><fmt:message key="page.psearchresult.label.comics" /></strong>{{searchData.comics.available}}</div>
+		<div class="search-item" ng-switch-when="2"><strong><fmt:message key="page.psearchresult.label.stories" /></strong>{{searchData.stories.available}}</div>
+		<div class="search-item" ng-switch-when="2"><strong><fmt:message key="page.psearchresult.label.series" /></strong>{{searchData.series.available}}</div>
+		<div class="search-item" ng-switch-when="1" ng-bind-html="searchData.description"></div>
+		<a ng-switch-when="1" ng-href="#/comic/{{searchData.id}}"><span class="glyphicon glyphicon-eye-open"></span><fmt:message key="page.psearchresult.label.view" /></a>
+		<a ng-switch-when="2" ng-href="#/creator/{{searchData.id}}"><span class="glyphicon glyphicon-eye-open"></span><fmt:message key="page.psearchresult.label.view" /></a>
+	</div>
+</div>

@@ -13,8 +13,16 @@
   	<!-- LANG -->
 	<context-param><param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name><param-value>com.ff.ressource.lang</param-value></context-param>
 	<context-param><param-name>javax.servlet.jsp.jstl.fmt.falbackLocale</param-name><param-value>fr</param-value></context-param>
+	
+	<!-- FILTRES -->
+	<filter><filter-name>encoding</filter-name><filter-class>com.ff.filter.Encoding</filter-class></filter>
+	<filter-mapping><filter-name>encoding</filter-name><url-pattern>/*</url-pattern></filter-mapping>
 
-  <servlet>
+	<filter><filter-name>Navigation</filter-name><filter-class>com.ff.filter.Navigation</filter-class></filter>
+	<filter-mapping><filter-name>Navigation</filter-name><url-pattern>/*</url-pattern></filter-mapping>
+	
+	<!-- servlets base -->
+	<servlet>
 		<servlet-name>crawlingRestService</servlet-name>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
@@ -23,8 +31,32 @@
 		</init-param>
 		<!-- <load-on-startup>1</load-on-startup>-->
 	</servlet>
+	<servlet><servlet-name>welcome</servlet-name><servlet-class>com.ff.servlet.Welcome</servlet-class></servlet>
+	<servlet><servlet-name>search</servlet-name><servlet-class>com.ff.servlet.Search</servlet-class></servlet>
+	<servlet><servlet-name>psearchresult</servlet-name><servlet-class>com.ff.servlet.SearchResult</servlet-class></servlet>
+	<servlet><servlet-name>pcomic</servlet-name><servlet-class>com.ff.servlet.ComicDetail</servlet-class></servlet>
+	<servlet><servlet-name>pcreator</servlet-name><servlet-class>com.ff.servlet.CreatorDetail</servlet-class></servlet>
+	<servlet><servlet-name>pdataitem</servlet-name><servlet-class>com.ff.servlet.DataItems</servlet-class></servlet>
+	
+	<!-- mappings base -->
+	<servlet-mapping><servlet-name>welcome</servlet-name><url-pattern>/marvel/*</url-pattern></servlet-mapping>
+	<servlet-mapping><servlet-name>search</servlet-name><url-pattern>/marvel/psearch</url-pattern></servlet-mapping>
+	<servlet-mapping><servlet-name>pcomic</servlet-name><url-pattern>/marvel/pcomic</url-pattern></servlet-mapping>
+	<servlet-mapping><servlet-name>pcreator</servlet-name><url-pattern>/marvel/pcreator</url-pattern></servlet-mapping>
+	<servlet-mapping><servlet-name>psearchresult</servlet-name><url-pattern>/marvel/psearchresult</url-pattern></servlet-mapping>
+	<servlet-mapping><servlet-name>pdataitem</servlet-name><url-pattern>/marvel/pdataitem</url-pattern></servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>crawlingRestService</servlet-name>
 		<url-pattern>/do/*</url-pattern>
 	</servlet-mapping>
+	
+	<jsp-config>
+		<!-- Taglibs -->
+		<taglib><taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri><taglib-location>/WEB-INF/tld/c.tld</taglib-location></taglib>
+		<taglib><taglib-uri>http://java.sun.com/jsp/jstl/functions</taglib-uri><taglib-location>/WEB-INF/tld/fn.tld</taglib-location></taglib>
+		<taglib><taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri><taglib-location>/WEB-INF/tld/fmt.tld</taglib-location></taglib>
+		<!-- JSP properties -->
+		<jsp-property-group><url-pattern>*.jsp</url-pattern><url-pattern>*.jspf</url-pattern><page-encoding>UTF-8</page-encoding><scripting-invalid>true</scripting-invalid></jsp-property-group>
+		<jsp-property-group><url-pattern>*.jsp</url-pattern><include-prelude>/WEB-INF/include/prelude.jspf</include-prelude><include-coda>/WEB-INF/include/coda.jspf</include-coda></jsp-property-group>
+	</jsp-config>
 </web-app>

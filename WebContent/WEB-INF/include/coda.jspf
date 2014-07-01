@@ -1,0 +1,8 @@
+<div class="navbar navbar-static-bottom" role="navigation">
+  <div class="container">
+  	<div class="marvel-logo"><a href="http://marvel.com/"><img src="${pageContext.request.contextPath}/images/marvellogo.png" /></a></div>
+  	<a href="https://developer.marvel.com/terms" title="Marvel API Terms of Use">Marvel API Terms of Use</a>
+  </div>
+</div>
+</body>
+</html>

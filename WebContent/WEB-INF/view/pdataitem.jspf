@@ -1,0 +1,5 @@
+<div class="thumbnail">
+	<img ng-src="{{getThumbnail(items.thumbnail, 'portrait_incredible')}}">
+	<div class="caption">{{items.title}}</div>
+</div>
+
